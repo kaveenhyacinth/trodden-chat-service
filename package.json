@@ -1,0 +1,24 @@
+{
+  "name": "trodden-chat",
+  "version": "1.0.0",
+  "description": "Chat service for trodden",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaveenhyacinth/trodden-chat-service.git"
+  },
+  "keywords": [
+    "chat",
+    "trodden",
+    "socket"
+  ],
+  "author": "kaveen Hyacinth",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kaveenhyacinth/trodden-chat-service/issues"
+  },
+  "homepage": "https://github.com/kaveenhyacinth/trodden-chat-service#readme"
+}
