@@ -1,4 +1,4 @@
-const users = [];
+var users = [];
 
 const addUser = (chatData) => {
   const existingUser = users.find(
@@ -14,7 +14,7 @@ const addUser = (chatData) => {
 const removeUser = (id) => {
   const removedUser = users.filter((user) => user.nomadId === id);
   const newUsers = users.filter((user) => user.nomadId !== id);
-  users.push(newUsers);
+  users = newUsers;
   if (removedUser) return removedUser;
 };
 
