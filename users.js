@@ -1,24 +1,28 @@
 const users = [];
 
-const addUser = ({ id, chatData }) => {
+const addUser = (chatData) => {
   const existingUser = users.find(
     (user) =>
       user.roomId === chatData.roomId && user.nomadId === chatData.nomadId
   );
   if (existingUser) return { error: "User has already joind the room" };
-  const user = { id, ...chatData };
+  const user = chatData;
   users.push(user);
   return { user };
 };
 
 const removeUser = (id) => {
-  const index = users.findIndex((user) => user.id === id);
-  if (index !== -1) {
-    return users.splice(index, 1)[0];
-  }
+  const removedUser = users.filter((user) => user.nomadId === id);
+  const newUsers = users.filter((user) => user.nomadId !== id);
+  users.push(newUsers);
+  if (removedUser) return removedUser;
 };
 
-const getUser = (id) => users.find((user) => user.id === id);
+const getUser = (id) => {
+  const user = users.find((user) => user.nomadId === id);
+  console.log("user server", user);
+  return user;
+};
 
 const getUsersInRoom = (roomId) =>
   users.filter((user) => user.roomId === roomId);

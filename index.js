@@ -1,6 +1,7 @@
 const express = require("express");
 const socketio = require("socket.io");
 const http = require("http");
+const cors = require("cors");
 
 const PORT = process.env.PORT || 5000;
 const router = require("./router");
@@ -10,12 +11,14 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-io.on("connection", (socket) => {
-  console.log("User joined");
+app.use(cors());
 
+io.on("connection", (socket) => {
+  console.log("New Connection!!");
   socket.on("join", (chatData, cb) => {
+    console.log("User joined");
     // console.log("Chat data", chatData);
-    const { error, user } = addUser({ id: socket.id, chatData });
+    const { error, user } = addUser(chatData);
     if (error) return cb(error);
 
     socket.emit("message", {
@@ -33,17 +36,24 @@ io.on("connection", (socket) => {
     cb();
   });
 
-  socket.on("sendMessage", (message, cb) => {
-    const user = getUser(socket.id);
+  socket.on("sendMessage", (data, cb) => {
+    const user = getUser(data.nomadId);
+    console.log("data", data);
     io.to(user.roomId).emit("message", {
       user: user.nomadName,
-      content: message,
+      content: data.message,
     });
     cb();
   });
 
-  socket.on("left", () => {
+  socket.on("left", (nomadId) => {
     console.log("User left");
+    const user = removeUser(nomadId);
+    console.log("removedUser", user);
+    io.to(user.roomId).emit("message", {
+      user: "Trodden",
+      content: `${user.nomadName} has left`,
+    });
   });
 });
 
