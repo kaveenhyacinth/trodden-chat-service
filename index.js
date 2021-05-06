@@ -23,7 +23,7 @@ io.on("connection", (socket) => {
 
     socket.emit("message", {
       user: "Trodden",
-      content: `${user.nomadName}, welcome to the ${user.roomName}'s Flash Trod™`,
+      content: `Welcome to the Flash Trod™`,
     });
 
     socket.broadcast.to(user.roomId).emit("message", {
