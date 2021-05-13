@@ -3,7 +3,7 @@ const socketio = require("socket.io");
 const http = require("http");
 const cors = require("cors");
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 const router = require("./router");
 const { addUser, removeUser, getUser, getUsersInRoom } = require("./users");
 
@@ -14,10 +14,8 @@ const io = socketio(server);
 app.use(cors());
 
 io.on("connection", (socket) => {
-  console.log("New Connection!!");
   socket.on("join", (chatData, cb) => {
     console.log("User joined");
-    // console.log("Chat data", chatData);
     const { error, user } = addUser(chatData);
     if (error) return cb(error);
 
@@ -50,7 +48,7 @@ io.on("connection", (socket) => {
     console.log("User left");
     const user = removeUser(nomadId);
     console.log("removedUser", user);
-    io.to(user.roomId).emit("message", {
+    socket.broadcast.to(user.roomId).emit("message", {
       user: "Trodden",
       content: `${user.nomadName} has left`,
     });
